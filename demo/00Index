@@ -1,0 +1,5 @@
+edr_ex0	Example with one dimensional EDR
+edr_ex1	Example with one dimensional EDR
+edr_ex2	Example with 2-dimensional EDR
+edr_ex3	A more complicated example with 2-dimensional EDR
+edr_ex4	Example with 2-dimensional EDR and estimation of MSEP and MAEP by edrcv

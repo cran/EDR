@@ -1,0 +1,2 @@
+useDynLib(EDR)
+export(edr,plot.edr,summary.edr,print.edr,edr.R,edrcv)
