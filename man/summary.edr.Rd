@@ -32,10 +32,10 @@ and the distance specified by Li (1992) are computed.
 m-dimensional EDR space.}
 \item{loss2}{The distance specified by Li (1992).}
 }
-\references{ \item{}{M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. }
-\item{}{J. Polzehl, S. Sperlich, V. Spokoiny (2006). \emph{Estimating Generalized Principle Components}, Manuscript in preparation. }
-\item{}{K.-C. Li  (1992). \emph{On principal Hessian directions for data visualization and dimension reduction:
-another application of Stein's lemma}, JASA, Vol. 87, pp. 1025-1039. }
+\references{ M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. \\
+J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818.   \\
+K.-C. Li  (1992). \emph{On principal Hessian directions for data visualization and dimension reduction:
+another application of Stein's lemma}, JASA, Vol. 87, pp. 1025-1039. 
 }
 \author{ Joerg Polzehl, \email{polzehl@wias-berlin.de} }
 \seealso{ \code{\link{edr}}, \code{\link{edr.R}}, \code{\link{print.edr}}, \code{\link{plot.edr}} }

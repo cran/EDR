@@ -27,7 +27,9 @@ plot.edr(x, m = 1, ylab = "Y", title = "", sm = require(sm), ...)
 }
 \value{Returns \code{invisible{NULL}}.
 }
-\references{ \item{}{J. Polzehl, S. Sperlich, V. Spokoiny (2006). \emph{Estimating Generalized Principle Components} Manuscript in preparation.}}
+\references{M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. \\
+J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818.   \\
+}
 \author{ Joerg Polzehl, \email{polzehl@wias-berlin.de} }
 \seealso{ \code{\link{edr}}, \code{\link{edr.R}}, \code{\link{print.edr}}, \code{\link{summary.edr}} }
 \examples{

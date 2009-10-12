@@ -15,11 +15,12 @@ edr.R(B, m)
   \item{B}{ Either an object of class \code{edr} created by \code{edr} or the list component
   \code{bhat} of such an object. }
   \item{m}{ Dimension of the effective dimension reduction (EDR) space. \code{m=1} 
-  corresponds to single index models, \code{m>1} specifies a multiindex model.  }
+  corresponds to single index models, \code{m>1} specifies a multiindex model.}
 }
 \value{Matrix of dimension \code{c(m,d)} containing the \code{m} eigenvectors as rows.}
+\references{ M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. \\
+J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818. 
 }
-\references{ \item{}{J. Polzehl, S. Sperlich, V. Spokoiny (2006). \emph{Estimating Generalized Principle Components} Manuscript in preparation.}}
 \author{ Joerg Polzehl, \email{polzehl@wias-berlin.de} }
 \seealso{ \code{\link{edr}}, \code{\link{edr.R}}, \code{\link{print.edr}}, \code{\link{summary.edr}} }
 \examples{

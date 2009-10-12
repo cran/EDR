@@ -1,0 +1,303 @@
+#limit datasize unlimited
+#R --vsize 200M
+
+library(mva)
+
+expand_function(x) {
+    d_length(x)
+    outer(x,x)[rep(1:d,d)>=rep(1:d,rep(d,d))]
+    }
+
+
+simrunneu_function(ergs,graph=F){
+# n, d  dimensions
+# beta  index
+# a,b   design-parameter in Beta(,a,b)
+# f     link function
+# fa    parameter
+# sigma stand. dev.
+# R     edr-space 
+.Random.seed_ergs$seed
+n_ergs$n
+d_ergs$d
+m_ergs$m
+beta_ergs$beta
+a_ergs$a
+b_ergs$b
+f_ergs$f
+fa_ergs$fa
+cw_ergs$cw
+sigma_ergs$sigma
+R_ergs$R
+rho0_ergs$rho0
+hin_ergs$hin
+hone_ergs$hone
+rhomin_ergs$rhomin
+if(is.null(rhomin)) rhomin_rho0*n^(-1/3)
+method_ergs$method
+gradient_ergs$gradient
+x_matrix(2*rbeta(n*d,a,b)-1,n,d)
+fx_f(x%*%t(beta),fa)
+y_rnorm(n,fx,sigma)
+if(method=="erweitert") psiofx_svd(cbind(rep(1,n),x,t(apply(x,1,expand))))$u
+else  psiofx_svd(cbind(rep(1,n),x))$u
+if(method=="trivial") psiofx_matrix(rep(1,n),n,1)
+psiofx0_svd(gradient(x%*%t(R))%*%R)$u
+#m0_d
+#m_dim(psiofx)[2]
+z_edr2(x,y,rho0,h0=hin,hmax=1000,R=R[1:d,1:d],m=m,
+      rhomin=rhomin,psiofx=psiofx,cw=cw,graph=graph,fx=fx) 
+ergs$loss1_cbind(ergs$loss1,z$loss1)
+ergs$loss2_cbind(ergs$loss2,z$loss2)
+#z_edronestep(x,y,hone,m=2,R=R[1:d,1:d],psiofx=psiofx0) 
+#ergs$loss1one_c(ergs$loss1one,z$loss1)
+#ergs$loss2one_c(ergs$loss2one,z$loss2)
+#z_edronestep(x,y,hone,m=2,R=R[1:d,1:d],psiofx=psiofx) 
+#ergs$loss1oneb_c(ergs$loss1oneb,z$loss1)
+#ergs$loss2oneb_c(ergs$loss2oneb,z$loss2)
+ergs
+}
+
+
+edr2_function(x,y,rho0=1,rhomin=rho0*(dim(x)[1])^(-1/3),
+              h0=sqrt(dim(x)[2])*dim(x)[1]^(-1/max(4,(dim(x)[2]))),
+              hmax=sqrt(dim(x)[2]),
+              crho=.846,ch=exp(.5/max(4,(dim(x)[2]))),
+              psiofx=NULL,eps=0.0,R=NULL,m=1,cw=NULL,graph=F,fx=NULL){
+d_dim(x)[2]
+n_dim(x)[1]
+if(is.null(cw)) cw_d
+if(cw>=1) cw_1/cw
+if(length(y)!=n) stop("wrong number of observations")
+w0_sqrt(c(0.1252,0.1107,0.1,0.09075,0.08332,0.07703,
+          0.07119,0.06671,0.06273,0.05868,0.05559))
+if(d>(length(w0)+1)) w0d_sqrt(1/(d+6))
+else w0d_w0[d-1]
+h_h0
+if(is.null(hmax)) hmax_h0*n^(1/max(4,d))
+rho_rho0
+loss1_NULL
+loss2_NULL
+loss3_NULL
+cumlam_NULL
+nmean_NULL
+if(is.null(psiofx)) psiofx_svd(cbind(rep(1,n),x),nv=0)$u
+bhat_matrix(0,d,dim(psiofx)[2])
+m0_dim(psiofx)[2]
+while((rho>rhomin&h<hmax)){
+z_edrk2(x,y,n,d,m0,psiofx,rho,h,hmax,crho,ch,bhat,n*w0d*cw)
+rho_z$rho
+h_z$h
+h0_z$h0
+bhat_z$bhat
+nmean_c(nmean,z$nmean)
+value_svd(bhat)$d
+bhat_bhat/max(value)
+if(graph) {
+    plot(x%*%t(RofB2(bhat,1)),y)
+    if(!is.null(fx)) 
+    ox_order(x%*%t(RofB2(bhat,1)))
+    points((x%*%t(RofB2(bhat,1)))[ox],fx[ox],pch=19)
+    }
+lam_svd(bhat)$d
+if(max(lam)>1) lam_lam/max(lam)
+cumlam_c(cumlam,cumsum(lam)[m])
+if(!is.null(R)) {
+cat("Bw:",signif(h,4),"rho:",signif(rho,4),"nmean",z$nmean,
+   "trho",signif(sum(lam[1:m])/sum(lam),4),
+   "loss1:",signif(lossi1_lossedr(RofB2(bhat,m),R,d),4),"\n\n")
+loss1_c(loss1,lossi1)
+loss2_c(loss2,lossedr2(RofB(bhat,min(m0,d)),R,m,x))
+}
+gc()
+}
+list(bhat=bhat,cumlam=cumlam,loss1=loss1,loss2=loss2,nmean=nmean,
+     hmax=hmax,rhomin=rhomin,h0=h0,rho0=rho0,crho=crho,ch=ch,cw=cw)
+}
+edr2one_function(x,y,rho0=1,
+              h0=sqrt(dim(x)[2])*dim(x)[1]^(-1/max(4,(dim(x)[2]))),
+              psiofx=NULL,eps=0.0,R=NULL,m=m,cw=NULL,graph=F,fx=NULL){
+d_dim(x)[2]
+n_dim(x)[1]
+if(is.null(cw)) cw_d
+if(cw>=1) cw_1/cw
+if(length(y)!=n) stop("wrong number of observations")
+w0_sqrt(c(0.1252,0.1107,0.1,0.09075,0.08332,0.07703,
+          0.07119,0.06671,0.06273,0.05868,0.05559))
+if(d>(length(w0)+1)) w0d_sqrt(1/(d+6))
+else w0d_w0[d-1]
+h_h0
+rho_rho0
+loss1_NULL
+loss2_NULL
+nmean_NULL
+if(is.null(psiofx)) psiofx_svd(cbind(rep(1,n),x),nv=0)$u
+bhat_matrix(0,d,dim(psiofx)[2])
+m0_dim(psiofx)[2]
+z_edrk2(x,y,n,d,m0,psiofx,rho,h,10*h,1,1.1,bhat,n*w0d*cw)
+bhat_z$bhat
+nmean_c(nmean,z$nmean)
+value_svd(bhat)$d
+bhat_bhat/max(value)
+if(graph) {
+    plot(x%*%t(RofB2(bhat,1)),y)
+    if(!is.null(fx)) 
+    ox_order(x%*%t(RofB2(bhat,1)))
+    lines((x%*%t(RofB2(bhat,1)))[ox],fx[ox])
+    }
+if(!is.null(R)) {
+cat("Bw:",signif(h,4),"rho:",signif(rho,4),"nmean",z$nmean,
+   "trho",
+   "loss1:",signif(lossi1_lossedr(RofB2(bhat,m),R,d),4),"\n\n")
+loss1_c(loss1,lossi1)
+loss2_c(loss2,lossedr2(RofB(bhat,min(m0,d)),R,m,x))
+}
+list(bhat=bhat,loss1=loss1,loss2=loss2,nmean=nmean,
+     h0=h0,rho0=rho0)
+}
+
+edrk2_function(x,y,n,d,m0,psiofx,rho,h,h0,crho,ch,bhat,nw0){
+#
+#  one iteration of the algorithm
+#
+   eps_.0000001
+   d1_d+1
+   Kern_function(x) pmax(0,(1-x))^2 
+# assumes x to be a squared norm 
+#
+#  step 2
+#
+   time0_proc.time()[1]
+   sk2_(diag(rep(1,d))+bhat%*%t(bhat)/rho^2)
+   sk_svd(sk2,nv=0)
+   sk_sk$u%*%diag(sqrt(sk$d))%*%t(sk$u)
+#
+#  step 3 and 4
+#
+   wrongh_T
+   counthincrease_0
+   wi_numeric(n)
+   wij_x%*%sk
+   Kksi_dist(wij)^2
+   wij_t(wij)
+   while(wrongh){
+   swi_0
+   for (i in 1:n) {
+      Kksii_extract.dist(Kksi,i)/h^2
+      ind_(1:n)[Kksii<1]
+      if((lind_length(ind))<d+2) next
+      z_svd(cbind(rep(1,lind),t(wij[,ind]-wij[,i]))*(1-Kksii[ind]))$d
+      wi[i]_z[d+1]/z[1]
+    }
+    swi_sum(wi)
+    if(swi>=nw0) wrongh_F
+    else {
+       h_h*ch
+       h0_h0*ch
+       cat("\n increase bandwidth to",h,"swi,nw0",swi,nw0,"\n")
+       counthincrease_counthincrease+1
+       if(counthincrease>(d+2)) wrongh_F  
+       }
+    }
+#
+#  step 5 
+#
+   fx_matrix(0,n,d)
+   lll_0
+gc()
+   Kksi_Kksi/h^2
+   tx_t(x)
+   for (i in 1:n) {
+      Kksii_extract.dist(Kksi,i)
+      ind_(1:n)[Kksii<1]
+      lind_length(ind)
+      if(lind<d+2) next
+      Kksii_1-Kksii[ind]
+      lll_lll+sum(Kksii^2)
+#  Kksi^2 are weights for Biweight Kernel, we need square root of them to normalize
+      svdxij_svd(cbind(rep(1,lind),t(tx[,ind]-tx[,i]))*Kksii)
+      zu_svdxij$u
+      zv_svdxij$v
+      zd_svdxij$d
+      if(is.null(dim(zu))||is.null(dim(zv))||!is.vector(zd)||any(zd<eps)) {
+           next
+           }
+      fx[i,]_(zv%*%diag(1/zd)%*%t(zu)%*%(y[ind]*Kksii))[-1]
+      }
+#
+#  step 6  with  psi_l(x)=x_l  sum of weights still in swi  weights in wi
+#
+   for(i in 1:m0){
+      bhat[,i]_apply(fx*psiofx[,i]*wi,2,sum)/swi
+      }
+    rho_rho*crho
+   list(rho=rho,h=h*ch,h0=h0,bhat=bhat,nmean=lll/n)
+   }
+   
+
+
+
+RofB_function(B,m){
+t(B%*%svd(B,nu=0)$v[,1:m,drop=F])
+}
+RofB2_function(B,m){
+t(svd(B,nv=0)$u[,1:m,drop=F])
+}
+
+
+
+lossedr_function(Rstar,R,d){
+zz_svd(t(Rstar),nv=0)$u
+(sum(svd(R%*%(diag(d)-zz%*%t(zz)))$d^2)/sum(svd(R)$d^2))
+}
+
+
+lossedr2_function(Rstar,R,m,x){
+#thats cancor following Li (1992)
+1-mean(cancor(x%*%t(Rstar[1:m,,drop=F]),x%*%t(R[1:m,,drop=F]))$cor^2)
+}
+
+
+extract.dist_function(dist,j){
+n_attr(dist,"Size")
+c(if(j==1) NULL else dist[j-(1:(j-1))*(2:j)/2+(0:(j-2))*n],0,
+if(j==n) NULL else dist[(j-1)*(n-j/2)+(1:(n-j))])
+}
+
+
+svd0_function (x, nu = min(n, p), nv = min(n, p)) 
+{
+    x <- as.matrix(x)
+    dx <- dim(x)
+    n <- dx[1]
+    p <- dx[2]
+    u <- matrix(0, n, p)
+    v <- matrix(0, p, p)
+    mn <- min(n, p)
+    mm <- min(n + 1, p)
+    z <- .Fortran("dsvdc", as.double(x), n, n, p, d = double(mm), 
+        double(p), u = u, n, v = v, p, double(n), as.integer(21), 
+        info = integer(1), DUP = FALSE, PACKAGE = "base")[c("d", 
+        "u", "v", "info")]
+    if (z$info) stop(paste("error ", z$info, " in dsvdc"))
+    z$d <- z$d[1:mn]
+    z[c("d", "u", "v")]
+}
+svd00_function (x) 
+{
+    x <- as.matrix(x)
+    dx <- dim(x)
+    n <- dx[1]
+    p <- dx[2]
+    v <-   u <- double(0)
+    mn <- min(n, p)
+    mm <- min(n + 1, p)
+    z <- .Fortran("dsvdc", as.double(x), n, n, p, d = double(mm), 
+        double(p), u = u, n, v = v, p, double(n), as.integer(0), 
+        info = integer(1), DUP = FALSE, PACKAGE = "base")[c("d", 
+        "u", "v", "info")]
+    if (z$info) 
+        stop(paste("error ", z$info, " in dsvdc"))
+    z$d <- z$d[1:mn]
+    z["d"]
+}

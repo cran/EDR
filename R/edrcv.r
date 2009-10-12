@@ -76,6 +76,6 @@ fit.edr <- function(x,xtest,m=1,h){
     bhat<-x$bhat
     fhat <- x$fhat
     if(m==1) ngrid<-length(yy) else ngrid<-max(100,n^(2/3))
-    z <- sm::sm.regression(xx%*%t(edr.R(bhat,m)),yy,h=if(is.null(h)) sm::h.select(xx%*%t(edr.R(bhat,m)),yy,method="cv") else rep(h,m),display="none",eval.points=xtest%*%t(edr.R(bhat,m)),eval.grid=FALSE)
+    z <- sm.regression(xx%*%t(edr.R(bhat,m)),yy,h=if(is.null(h)) h.select(xx%*%t(edr.R(bhat,m)),yy,method="cv") else rep(h,m),display="none",eval.points=xtest%*%t(edr.R(bhat,m)),eval.grid=FALSE)
 list(x=xtest,fhat=z$estimate)
 }

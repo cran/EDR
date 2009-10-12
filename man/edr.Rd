@@ -64,8 +64,8 @@ graph = FALSE, show = 1, trace = FALSE, fx = NULL, R = NULL)
   \item{cm}{The factor \code{cm}}
   \item{call}{Arguments of the call to edr}
 }
-\references{ \item{}{M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. }
-\item{}{J. Polzehl, S. Sperlich (2007). \emph{Structural Adaptive Dimension Reduction}, WIAS-Preprint 1227.}
+\references{ M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. \\
+J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818. 
 }
 \author{Joerg Polzehl, \email{polzehl@wias-berlin.de}  }
 \seealso{ \code{\link{edrcv}},\code{\link{plot.edr}},   \code{\link{summary.edr}},  \code{\link{print.edr}}, \code{\link{edr.R}}}

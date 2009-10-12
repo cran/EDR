@@ -185,10 +185,6 @@ edrk <- function(x,y,n,d,psiofx,rho,h,crho,ch,bhat,ypshat,nw0,method,trace){
    }
 
 plot.edr <- function(x,m=1,ylab="Y",title="",sm=require(sm),...){
-    if(m>2){
-       m <- 2 
-       warning("plotting results for first two projections only")
-    }
     xx<-x$x
     yy<-x$y
     n <- length(yy)
@@ -212,7 +208,7 @@ plot.edr <- function(x,m=1,ylab="Y",title="",sm=require(sm),...){
     }
     } else {
     if(m==1) ngrid<-length(yy) else ngrid<-max(100,n^(2/3))
-    z <- sm::sm.regression(xx%*%t(edr.R(bhat,m)),yy,h=sm::h.select(xx%*%t(edr.R(bhat,m)),yy,method="cv"),display="none",ngrid=ngrid)
+    z <- sm.regression(xx%*%t(edr.R(bhat,m)),yy,h=h.select(xx%*%t(edr.R(bhat,m)),yy,method="cv"),display="none",ngrid=ngrid)
     if(m==1){
     plot(xx%*%t(edr.R(bhat,m)),yy,xlab="R_m%*%x",ylab=ylab,...)
     lines(z$eval.points,z$estimate,col=2)
@@ -287,7 +283,7 @@ t(svd(B,nv=0)$u[,1:m,drop=FALSE])
 }
 
 loss.edr <- function(Rstar,R,d){
-#  compute ||R %*% (I- \hat{P}_m)||/||R|| with P_m being the projection matrix  
+#  compute ||R %*% (I- hat{P}_m)||/||R|| with P_m being the projection matrix  
 #  for the estimated EDR
 #  this defines a distance between spaces spanned by Rstar and the estimated 
 #  EDR

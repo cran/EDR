@@ -73,9 +73,8 @@ Object of class \code{"edr"} with components.
   \item{hsmopt}{Bandwidth selected for use with \code{sm.regression} if \code{hsm} was specified.}
   
 }
-\references{ \item{}{M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. }
-\item{}{J. Polzehl, S. Sperlich, V. Spokoiny (2006). \emph{Estimating Generalized Principle Components}, Manuscript in preparation. }
-}
+\references{ M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. \\
+J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818.  }
 \author{ Joerg Polzehl, \email{polzehl@wias-berlin.de} }
 \note{ This function requires package \code{sm}.
 }
