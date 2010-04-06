@@ -6,9 +6,8 @@
 effective dimension reduction space (EDR), see also function \code{\link{edr}}, estimates the Mean Squared Error of Prediction (MSEP) and the Mean Absolute Error of Prediction (MAEP) when using the estimated EDR by Cross-Validation. Estimates of the regression function are produced using function \code{sm.regression}  from package \code{sm}.
 }
 \usage{
-edrcv(x, y, m = 2, rho0 = 1, h0 = NULL, ch = exp(0.5/max(4, (dim(x)[2]))), crhomin = 1, cm = 4, method = "Penalized", basis = "Quadratic", cw = NULL, graph = FALSE, show = 1, trace = FALSE, seed = 1, cvsize = 1, m0 = min(m, 2),hsm=NULL)
+edrcv(x, y, m = 2, rho0 = 1, h0 = NULL, ch = exp(0.5/max(4, (dim(x)[2]))), crhomin = 1, cm = 4, method = "Penalized",fit = "sm" , basis = "Quadratic", cw = NULL, graph = FALSE, show = 1, trace = FALSE, seed = 1, cvsize = 1, m0 = min(m, 2),hsm=NULL)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{\code{x} specifies the design matrix, dimension \code{(n,d)}  }
   \item{y}{\code{y} specifies the response, length \code{n}.}
@@ -24,6 +23,9 @@ edrcv(x, y, m = 2, rho0 = 1, h0 = NULL, ch = exp(0.5/max(4, (dim(x)[2]))), crhom
     Hristache et.al. (2001) while \code{method="HJPS2"} specifies a modifification 
     (correction) of this algoritm. 
     }
+  \item{fit}{Specifies the method for estimating and predicting values of the link function. This can either be \code{fit="sm"}
+    specifying use of the sm package or \code{fit="direct"} specifying the use of a local linear smoother. In case of \code{m0>2} 
+    \code{fit="direct"} is used due to restrictions in the sm package. }
   \item{basis}{ Specifies the set of basis functions. Options are \code{basis="Quadratic"} (default) and \code{basis="Linear"}.}
   \item{cw}{\code{cw}  another regularization parameter, secures identifiability of a minimum number of local gradient directions. Defaults to \code{1/d }. Has to be positive or \code{NULL}. }
   \item{graph}{If \code{graph==TRUE} intermediate results are plotted. }
@@ -45,7 +47,6 @@ This function performs a leave-k-out cross-validation to estimate the risk
 in terms of Mean Squared Error of Prediction (MSEP) and Mean Absolute Error of Prediction (MAEP) when using function \code{edr} to estimate an 
 effective dimension reduction space of dimension \code{m0} and using this estimated space to predict values of the response. Smoothing within the dimension reduction space is performed using  the  function \code{sm.regression}  from package \code{sm}. The bandwidth for  \code{sm.regression} is 
 chosen by Cross-Validation. 
-
 }
 \value{
 Object of class \code{"edr"} with components.
@@ -73,15 +74,16 @@ Object of class \code{"edr"} with components.
   \item{hsmopt}{Bandwidth selected for use with \code{sm.regression} if \code{hsm} was specified.}
   
 }
-\references{ M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). \emph{Structure adaptive approach for dimension reduction}, The Annals of Statistics. Vol.29, pp. 1537-1566. \\
-J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818.  }
+\references{M. Hristache, A. Juditsky, J. Polzehl and V. Spokoiny (2001). Structure adaptive approach for dimension reduction, \emph{The Annals of Statistics}. Vol.29, pp. 1537-1566. 
+
+J. Polzehl, S. Sperlich (2008). A Note on Stuctural Adaptive Dimension Reduction, \emph{Journal of Statistical Computation and Simulation}, DOI: 10.1080/00949650801959699}
 \author{ Joerg Polzehl, \email{polzehl@wias-berlin.de} }
-\note{ This function requires package \code{sm}.
+\note{ This function requires package \code{sm} if \code{fit="sm"}.
 }
-\seealso{ \code{\link{edr}},\code{\link{plot.edr}},   \code{\link{summary.edr}},  \code{\link{print.edr}}, \code{\link{edr.R}}}
+\seealso{ \code{\link{edr}},\code{\link{plot.edr}},   \code{\link{summary.edr}},  \code{\link{print.edr}}, \code{\link{edr.R}}, \code{\link{predict.edr}}}
 \examples{
 require(EDR)
-demo(edr_ex4)
+\dontrun{demo(edr_ex4)}
 }
 \keyword{ smooth  }% at least one, from doc/KEYWORDS
 \keyword{ regression }% __ONLY ONE__ keyword per line
