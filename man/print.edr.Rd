@@ -6,7 +6,7 @@
   The function provides information on the estimated effective dimension reduction (EDR) space.
 }
 \usage{
-print.edr(x, m = 1, R = NULL, ...)
+\method{print}{edr}(x, m = 1, R = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

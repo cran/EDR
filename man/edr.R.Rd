@@ -22,7 +22,7 @@ edr.R(B, m)
 J. Polzehl, S. Sperlich (2009). \emph{A note on structural adaptive dimension reduction},  J. Stat. Comput. Simul.. Vol. 79 (6),  pp. 805--818. 
 }
 \author{ Joerg Polzehl, \email{polzehl@wias-berlin.de} }
-\seealso{ \code{\link{edr}}, \code{\link{edr.R}}, \code{\link{print.edr}}, \code{\link{summary.edr}} }
+\seealso{ \code{\link{edr}} }
 \examples{
 require(EDR)
 \dontrun{demo(edr_ex1)}

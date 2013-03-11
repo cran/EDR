@@ -6,7 +6,7 @@
   The function provides information on the estimated effective dimension reduction (EDR) space.
   }
 \usage{
-summary.edr(object, m = 1, R = NULL, ...)
+\method{summary}{edr}(object, m = 1, R = NULL, ...)
 }
 \arguments{
   \item{object}{ Object of class \code{"edr"}. }

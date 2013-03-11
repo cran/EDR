@@ -7,7 +7,7 @@
   model with estimated effective dimension reduction space.
 }
 \usage{
-predict.edr(object, xest, m = 1, h=NULL, method = "sm",...)
+\method{predict}{edr}(object, xest, m = 1, h=NULL, method = "sm",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -7,7 +7,7 @@
   reduction (EDR) space. 
   }
 \usage{
-plot.edr(x, m = 1, ylab = "Y", title = "", sm = require(sm), ...)
+\method{plot}{edr}(x, m = 1, ylab = "Y", title = "", sm = require(sm), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

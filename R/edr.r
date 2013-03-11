@@ -191,13 +191,19 @@ plot.edr <- function(x,m=1,ylab="Y",title="",sm=require(sm),...){
     bhat<-x$bhat
     fhat <- x$fhat
     if(!sm){
+    if(m>=2 & !require(akima, quietly = TRUE)){
+        warning(" Package sm or akima needed for 2D interpolation \n
+             Note that Package akima is distributed under ACM license \n(see
+             http://www.acm.org/publications/policies/softwarecrnotice.is )\n
+             Using univariate projections instead of 2D\n")
+        m <- 1
+    }
     if(m==1){
     plot(xx%*%t(edr.R(bhat,1)),yy,xlab="R_m%*%x",ylab=ylab,...)
     xxx<-xx%*%t(edr.R(bhat,1))
     points(xxx,fhat,col=2)
     }
     if(m>=2){
-     require(akima)
      xr<-xx%*%t(edr.R(bhat,2))
      ngrid<-max(100,length(yy)^(2/3))
      xo<-seq(min(xr[,1]),max(xr[,1]),length=ngrid)
@@ -214,7 +220,6 @@ plot.edr <- function(x,m=1,ylab="Y",title="",sm=require(sm),...){
     lines(z$eval.points,z$estimate,col=2)
     }
     if(m>=2){
-     require(akima)
      image(z$estimate,xlab="First projection",ylab="Second projection",...)
      contour(z$estimate,add=TRUE)
     }
