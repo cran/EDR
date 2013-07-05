@@ -6,7 +6,10 @@
 effective dimension reduction space (EDR), see also function \code{\link{edr}}, estimates the Mean Squared Error of Prediction (MSEP) and the Mean Absolute Error of Prediction (MAEP) when using the estimated EDR by Cross-Validation. Estimates of the regression function are produced using function \code{sm.regression}  from package \code{sm}.
 }
 \usage{
-edrcv(x, y, m = 2, rho0 = 1, h0 = NULL, ch = exp(0.5/max(4, (dim(x)[2]))), crhomin = 1, cm = 4, method = "Penalized",fit = "sm" , basis = "Quadratic", cw = NULL, graph = FALSE, show = 1, trace = FALSE, seed = 1, cvsize = 1, m0 = min(m, 2),hsm=NULL)
+edrcv(x, y, m = 2, rho0 = 1, h0 = NULL, ch = exp(0.5/max(4, (dim(x)[2]))), crhomin = 1, 
+      cm = 4, method = "Penalized",fit = "sm" , basis = "Quadratic", cw = NULL, 
+      graph = FALSE, show = 1, trace = FALSE, seed = 1, cvsize = 1, m0 = min(m, 2), 
+      hsm = NULL)
 }
 \arguments{
   \item{x}{\code{x} specifies the design matrix, dimension \code{(n,d)}  }
