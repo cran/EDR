@@ -7,7 +7,7 @@
   reduction (EDR) space. 
   }
 \usage{
-\method{plot}{edr}(x, m = 1, ylab = "Y", title = "", sm = require(sm), ...)
+\method{plot}{edr}(x, m = 1, ylab = "Y", title = "", sm = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +19,7 @@
   \item{title}{ Optional title. }
   \item{sm}{ If \code{sm==TRUE} nonparametric regression is performed
   within the m-dimensional EDR using function \code{sm.regression} from
-  package \code{sm}. If \code{sm==FALSE} or \code{require(sm)==FALSE} 
+  package \code{sm}. If \code{sm==FALSE} 
   oversmoothed fitted values calculated within function \code{edr} are used
   for visualisation. }
   \item{...}{ Additional parameters will be passed to \code{plot} in case of \code{m=1} and

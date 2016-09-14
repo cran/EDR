@@ -5,10 +5,10 @@ C        length(work) : 10*(3*dp1+imax(n,6*dp1))
 C        length(iwork): 8*dp1
 C
       integer n,d,dp1,iwork(*)
-      real*8 wij(n,d),kksi(*),kksii(n),wi(n),mat(dp1,n),s(dp1),
-     1       work(*)
+      double precision wij(n,d),kksi(*),kksii(n),wi(n),mat(dp1,n),
+     1       s(dp1),work(*)
       integer i,j,k,ll,lwork,info
-      real*8 u,vt,omkksii
+      double precision u,vt,omkksii
       external dgesdd
       DO i=1,n
          call extrdist(n,kksi,i,kksii)
@@ -43,10 +43,10 @@ C        length(iwork): 8*dp1
 C
       implicit logical (a-z)
       integer n,d,dp1,iwork(*)
-      real*8 wij(n,d),kksi(*),kksii(n),mat(dp1,n),s(dp1),
+      double precision wij(n,d),kksi(*),kksii(n),mat(dp1,n),s(dp1),
      1       work(*),fx(n,d),lll,y(n),yw(n),fw(n)
       integer i,j,k,m,ll,lwork,info
-      real*8 u(dp1,dp1),vt(dp1,n),omkksii,z,z1
+      double precision u(dp1,dp1),vt(dp1,n),omkksii,z,z1
       external dgesdd
       lll=0.d0
       DO i=1,n
@@ -98,7 +98,7 @@ C        this provides distances from point X_i
       END
       subroutine extrdist(n,dist,j,dj)
       integer n,j
-      real*8 dist(*),dj(n)
+      double precision dist(*),dj(n)
       integer i
       IF(j.ne.1) THEN
          DO i=1,j-1
@@ -121,10 +121,11 @@ C        length(iwork): 8*dp1
 C
       implicit logical (a-z)
       integer n,nest,d,dp1,iwork(*)
-      real*8 x(n,d),xest(nest,d),kksi(n,nest),mat(dp1,n),s(dp1),
-     1       work(*),y(n),yw(n),fw(nest)
+      double precision x(n,d),xest(nest,d),kksi(n,nest),mat(dp1,n),
+     1       s(dp1),work(*),y(n),yw(n),fw(nest)
       integer i,j,k,ll,lwork,info
-      real*8 u(dp1,dp1),vt(dp1,n),omkksii,z,z1,kksij,swj,swjy,kksimin
+      double precision u(dp1,dp1),vt(dp1,n),omkksii,z,z1,kksij,swj,
+     1      swjy,kksimin
       external dgesdd
       DO i=1,nest
          ll=0

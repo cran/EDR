@@ -184,19 +184,25 @@ edrk <- function(x,y,n,d,psiofx,rho,h,crho,ch,bhat,ypshat,nw0,method,trace){
    z<-list(rho=rho*crho,h=h*ch,bhat=bhat,fhat=z$fhat,nmean=lll/n,nw0=nw0*crho)
    }
 
-plot.edr <- function(x,m=1,ylab="Y",title="",sm=require(sm),...){
+plot.edr <- function(x,m=1,ylab="Y",title="",sm=TRUE,...){
     xx<-x$x
     yy<-x$y
     n <- length(yy)
     bhat<-x$bhat
     fhat <- x$fhat
     if(!sm){
-    if(m>=2 & !require(akima, quietly = TRUE)){
-        warning(" Package sm or akima needed for 2D interpolation \n
+    if(m>=2){
+       if(requireNamespace("akima",quietly=TRUE)){
+         warning(" Package sm not installed, using akimafor 2D interpolation \n
              Note that Package akima is distributed under ACM license \n(see
-             http://www.acm.org/publications/policies/softwarecrnotice.is )\n
-             Using univariate projections instead of 2D\n")
-        m <- 1
+                 http://www.acm.org/publications/policies/softwarecrnotice.is )\n")
+       } else {
+         warning(" Package sm or akima needed for 2D interpolation \n
+             Note that Package akima is distributed under ACM license \n(see
+                 http://www.acm.org/publications/policies/softwarecrnotice.is )\n
+                 Using univariate projections instead of 2D\n")
+         m <- 1
+       }
     }
     if(m==1){
     plot(xx%*%t(edr.R(bhat,1)),yy,xlab="R_m%*%x",ylab=ylab,...)
@@ -208,7 +214,7 @@ plot.edr <- function(x,m=1,ylab="Y",title="",sm=require(sm),...){
      ngrid<-max(100,length(yy)^(2/3))
      xo<-seq(min(xr[,1]),max(xr[,1]),length=ngrid)
      yo<-seq(min(xr[,2]),max(xr[,2]),length=ngrid)
-     z<-interp(xr[,1],xr[,2],fhat,xo=xo,yo=yo)
+     z<-akima::interp(xr[,1],xr[,2],fhat,xo=xo,yo=yo)
      image(z,xlab="First projection",ylab="Second projection",...)
      contour(z,add=TRUE)
     }

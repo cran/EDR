@@ -1,8 +1,7 @@
-f89adf4cf4e044a8c525631aa36090ff *COPYRIGHT
-669e0f2f6c10ee11b95d7e3afd1c9efb *DESCRIPTION
-4cb28b2e6e8ea7aa2b59869afe38227a *NAMESPACE
-2cbc6a073aa843f1f17187b3bc96099a *R/edr.r
-ac3c81eb57e4156cb00b82ad2fa5db9c *R/edrcv.r
+764e0c0188bf77719b4cfc3971503e99 *DESCRIPTION
+a72a04274a162d2351912b4f1d1189cd *NAMESPACE
+73dbbcd23f65b974fd3ee59e108da1e7 *R/edr.r
+978477f77ed4529533ac2ee596ff8ead *R/edrcv.r
 4e0eedb48cdae73e6f5b32ef634639ec *demo/00Index
 8fa4b226fc626217806c7e7ec186cfc2 *demo/edr_ex0.r
 99cc1c389338cdd3bb95342b0e0e7f8e *demo/edr_ex1.r
@@ -12,9 +11,9 @@ ac3c81eb57e4156cb00b82ad2fa5db9c *R/edrcv.r
 722739c64f007a14c5d96690441c6c6d *man/edr.R.Rd
 ea375dd1de465e61a18ba7ac5afe016c *man/edr.Rd
 bdbc54d5c3c78a33074de4c0a4139499 *man/edrcv.Rd
-ec9de24c6dc1d29e777303ed2122bbfa *man/plot.edr.Rd
+fd8a0263489dfce3a07ad9b97f394c41 *man/plot.edr.Rd
 e7abc990a25ac8599d8c6b5d30f45cdb *man/predict.edr.Rd
 283ca848c1dde86f652c12fbb8bb7a32 *man/print.edr.Rd
 69de5261817ba7a13ec359d89276d454 *man/summary.edr.Rd
 619d13ce6900fca2139e2139408d39ad *src/Makevars
-2e3d50e649f8a2d3919822bada55edbd *src/edr.f
+4923a019e1e286d36ebbb30aa72234ff *src/edr.f

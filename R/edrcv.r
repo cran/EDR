@@ -11,7 +11,6 @@ ind <- groups(n,cvsize,seed)
 #
 #  Now the CV-loop
 #
-if(fit=="sm") require(sm)
 if(is.null(hsm)) lh <- 1 else lh <- length(hsm)
 cvres <- matrix(0,n,lh)
 cat("Start of CV loop \n Progress:")
@@ -69,7 +68,6 @@ ind
 }
 
 predict.edr <- function(object,xest,m=1,h=NULL,method="sm",...){
-    if(method=="sm"&!require(sm)) return("Please install package sm")
     if(method=="sm"&m>2) {
        method<-"direct"
 #       warning("sm only handles up to 2 covariates, method reset to direct")

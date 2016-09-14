@@ -1,2 +1,10 @@
 useDynLib(EDR)
+import(sm)
+importFrom("graphics", "contour", "image", "lines", "par", "plot",
+             "points")
+importFrom("stats", "IQR", "cancor", "dist")
 export(edr,plot.edr,summary.edr,print.edr,edr.R,edrcv,predict.edr)
+S3method(plot,edr)
+S3method(predict,edr)
+S3method(print,edr)
+S3method(summary,edr)
