@@ -1,7 +1,7 @@
-764e0c0188bf77719b4cfc3971503e99 *DESCRIPTION
-a72a04274a162d2351912b4f1d1189cd *NAMESPACE
-73dbbcd23f65b974fd3ee59e108da1e7 *R/edr.r
-978477f77ed4529533ac2ee596ff8ead *R/edrcv.r
+150c6a7fcbae8bfdc4aeb2f7f622a039 *DESCRIPTION
+91cab42b4f72532f4fb95f7747e50e4c *NAMESPACE
+1c7c194da8e34d95c391ff4ec2e62729 *R/edr.r
+5cd42de5ead16cb04f40e9d9bb1b55f0 *R/edrcv.r
 4e0eedb48cdae73e6f5b32ef634639ec *demo/00Index
 8fa4b226fc626217806c7e7ec186cfc2 *demo/edr_ex0.r
 99cc1c389338cdd3bb95342b0e0e7f8e *demo/edr_ex1.r
@@ -17,3 +17,4 @@ e7abc990a25ac8599d8c6b5d30f45cdb *man/predict.edr.Rd
 69de5261817ba7a13ec359d89276d454 *man/summary.edr.Rd
 619d13ce6900fca2139e2139408d39ad *src/Makevars
 4923a019e1e286d36ebbb30aa72234ff *src/edr.f
+6282aff6d602ef541c12c90a2ef2a083 *src/init.c

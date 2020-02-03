@@ -1,4 +1,4 @@
-useDynLib(EDR)
+useDynLib(EDR, .registration = TRUE, .fixes = "C_")
 import(sm)
 importFrom("graphics", "contour", "image", "lines", "par", "plot",
              "points")

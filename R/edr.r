@@ -1,7 +1,7 @@
 edr <- function(x,y,m=2,rho0=1,h0=NULL,ch=exp(.5/max(4,(dim(x)[2]))),
     crhomin=1,cm=4,method="Penalized",basis="Quadratic",cw=NULL,graph=FALSE,
     show=1,trace=FALSE,fx=NULL,R=NULL){
-args <- match.call()      
+args <- match.call()
 expand <- function(x) {
     d <- length(x)
     outer(x,x)[rep(1:d,d)>=rep(1:d,rep(d,d))]
@@ -14,12 +14,12 @@ psiofx <- switch(basis,Quadratic=svd(cbind(rep(1,n),x,t(apply(x,1,expand))))$u,
 			 svd(cbind(rep(1,n),x,t(apply(x,1,expand))))$u)
 if(is.null(h0)) #h0<-.85*(d/n*prod(apply(apply(x,2,range),2,diff)/2))^(1/d)*sqrt(d)
 # bandwidth in last line was approriate for uniform design only
-# corrected to also give a better guess for "Gaussian" design 
+# corrected to also give a better guess for "Gaussian" design
 #h0<-.85*(d/n*prod(sqrt(3*apply(x,2,var))))^(1/d)*sqrt(d)
 # may be we need also something that works in case of heavy tailes
 h0<-.85*(d/n*prod(apply(x,2,IQR)))^(1/d)*sqrt(d)
 if(show>m) show<-m
-if(graph && !is.null(fx)) oldpar <- par(mfrow=c(1,2)) 
+if(graph && !is.null(fx)) oldpar <- par(mfrow=c(1,2))
 if(is.null(cw)) cw <- max(6,log(n))
 if(cw>=1) cw <- 1/cw
 if(length(y)!=n) stop("wrong number of observations")
@@ -48,7 +48,7 @@ Pik <-cm*rho^2*diag(L)+Mhat
 }
 nw0<-n*w0d*cw
 while((rho>rhomin&h<hmax)){
-#  h>hmax  should occur much later than rho<rhomin, it is tested here only to 
+#  h>hmax  should occur much later than rho<rhomin, it is tested here only to
 #  stop the algorithm if the strategy using step 4 fails.
 z <- edrk(x,y,n,d,psiofx,rho,h,crho,ch,bhat,ypshat,nw0,method,trace)
 rho <- z$rho
@@ -91,7 +91,7 @@ cat("\n")
 gc()
 }
 }
-if(graph && !is.null(fx)) par(oldpar) 
+if(graph && !is.null(fx)) par(oldpar)
 z<-list(x=x,y=y,bhat=bhat,fhat=z$fhat,cumlam=cumsum(lam)[1:m]/sum(lam),nmean=nmean,h=h/ch,rho=rho/crho,
 h0=h0,rho0=rho0,cm=cm,call=args)
 class(z)<-"edr"
@@ -119,31 +119,31 @@ edrk <- function(x,y,n,d,psiofx,rho,h,crho,ch,bhat,ypshat,nw0,method,trace){
    fhat <- y
    while(wrongh){
    if(method=="HJPSorig"){
-   wi<-.Fortran("edrstp3a",as.integer(d),
-                           as.integer(n),
-			   as.integer(d1),
-                           as.double(wij),
-			   as.double(Kksi/h^2),
-			   double(n),
-		           double(d1*n),
-			   wi=double(n),
-			   double(d1),
-			   double(10*(3*d1+max(n,6*d1))),
-		           integer(8*d1),
-			   PACKAGE="EDR")$wi
+   wi<-.Fortran(C_edrstp3a,
+		 							as.integer(d),
+                  as.integer(n),
+			   					as.integer(d1),
+                  as.double(wij),
+			   					as.double(Kksi/h^2),
+			   					double(n),
+		           		double(d1*n),
+			   					wi=double(n),
+			   					double(d1),
+			   					double(10*(3*d1+max(n,6*d1))),
+		           		integer(8*d1))$wi
    } else {
-   wi<-.Fortran("edrstp3a",as.integer(d),
-                           as.integer(n),
-			   as.integer(d1),
-                           as.double(x),
-			   as.double(Kksi/h^2),
-			   double(n),
-		           double(d1*n),
-			   wi=double(n),
-			   double(d1),
-			   double(10*(3*d1+max(n,6*d1))),
-		           integer(8*d1),
-			   PACKAGE="EDR")$wi
+   wi<-.Fortran(C_edrstp3a,
+		 							as.integer(d),
+                  as.integer(n),
+			   					as.integer(d1),
+                  as.double(x),
+			   					as.double(Kksi/h^2),
+			   					double(n),
+		           		double(d1*n),
+			   					wi=double(n),
+			   					double(d1),
+			   					double(10*(3*d1+max(n,6*d1))),
+		           		integer(8*d1))$wi
     }
     swi <- sum(wi)
     if(swi>=nw0) wrongh <- FALSE
@@ -151,30 +151,30 @@ edrk <- function(x,y,n,d,psiofx,rho,h,crho,ch,bhat,ypshat,nw0,method,trace){
        h <- h*ch
        if(trace) cat("increase bandwidth to",h,"swi,nw0",swi,nw0,"\n")
        counthincrease <- counthincrease+1
-       if(counthincrease>(d+2)) wrongh <- FALSE  
+       if(counthincrease>(d+2)) wrongh <- FALSE
        }
     }
    fx <- matrix(0,n,d)
    lll <- 0
    Kksi <- Kksi/h^2
-   z<-.Fortran("edrstp3b",as.integer(d),
-                          as.integer(n),
-			  as.integer(d1),
-                          as.double(x),#wij
-			  as.double(Kksi),#kksi
-			  as.double(y),#y
-			  double(n),#kksii
-		          double(d1*n),#mat
-			  double(d1),#s
-			  double(d1*d1),#u
-			  double(d1*n),#v
-			  double(5*(3*d1*d1+max(n,4*d1*d1+4*d1))),#work
-		          integer(8*d1),#iwork
-			  fx=as.double(fx),
-			  fhat=as.double(fhat), 
-			  lll=as.double(lll),
-			  yw=double(n),#yw
-			  PACKAGE="EDR")[c("fx","fhat","lll")]
+   z<-.Fortran(C_edrstp3b,
+		 							as.integer(d),
+                  as.integer(n),
+			  					as.integer(d1),
+                  as.double(x),#wij
+			  					as.double(Kksi),#kksi
+			  					as.double(y),#y
+			  					double(n),#kksii
+		          		double(d1*n),#mat
+			  					double(d1),#s
+			  					double(d1*d1),#u
+			  					double(d1*n),#v
+			  					double(5*(3*d1*d1+max(n,4*d1*d1+4*d1))),#work
+		          		integer(8*d1),#iwork
+			  					fx=as.double(fx),
+			  					fhat=as.double(fhat),
+			  					lll=as.double(lll),
+			  					yw=double(n))[c("fx","fhat","lll")]
       fx<-matrix(z$fx,n,d)
       lll<-z$lll
    for(i in 1:L){
@@ -281,10 +281,11 @@ invisible(NULL)
 
 edr.R <- function(B,m){
 # compute matrix R_m such that  R_m%*%x lies in the m-dimensional
-# subspace 
-if(class(B)=="edr") B <- B$bhat
+# subspace
+#if(class(B)=="edr") B <- B$bhat
+if(inherits(B,"edr")) B <- B$bhat
 #
-#   extract matrix Bhat if B is an object returned by function edr 
+#   extract matrix Bhat if B is an object returned by function edr
 #   otherwise assume that B is the matrix Bhat
 #
 dimbhat <- dim(B)
@@ -294,14 +295,14 @@ t(svd(B,nv=0)$u[,1:m,drop=FALSE])
 }
 
 loss.edr <- function(Rstar,R,d){
-#  compute ||R %*% (I- hat{P}_m)||/||R|| with P_m being the projection matrix  
+#  compute ||R %*% (I- hat{P}_m)||/||R|| with P_m being the projection matrix
 #  for the estimated EDR
-#  this defines a distance between spaces spanned by Rstar and the estimated 
+#  this defines a distance between spaces spanned by Rstar and the estimated
 #  EDR
 zz <- svd(t(Rstar),nv=0)$u
 (sum(svd(R%*%(diag(d)-zz%*%t(zz)))$d^2)/sum(svd(R)$d^2))
 }
 loss2.edr <- function(Rstar,R,m,x){
-# thats cancor following Li (1992) 
+# thats cancor following Li (1992)
 1-mean(cancor(x%*%t(Rstar[1:m,,drop=FALSE]),x%*%t(R[1:m,,drop=FALSE]))$cor^2)
 }

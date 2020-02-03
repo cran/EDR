@@ -2,9 +2,9 @@ edrcv <- function(x,y,m=2,rho0=1,h0=NULL,ch=exp(.5/max(4,(dim(x)[2]))),
     crhomin=1,cm=4,method="Penalized",fit="sm",basis="Quadratic",cw=NULL,graph=FALSE,
     show=1,trace=FALSE,seed=1,cvsize=1,m0=min(m,2),hsm=NULL){
 #
-#   first prepare random grouping for Cross-validation 
+#   first prepare random grouping for Cross-validation
 #
-args <- match.call()      
+args <- match.call()
 n <- length(y)
 ind <- groups(n,cvsize,seed)
 
@@ -99,23 +99,23 @@ predict.edr <- function(object,xest,m=1,h=NULL,method="sm",...){
       Kksi <- Kksi/h^2
       m1 <- m+1
       lll <- 0
-      fhat <-.Fortran("edrstp3c",as.integer(m),
-                          as.integer(n),
-                          as.integer(nest),
-			  as.integer(m1),
-                          as.double(xx),#wij
-                          as.double(xest),#wij
-			  as.double(Kksi),#kksi
-			  as.double(yy),#y
-		          double(m1*n),#mat
-			  double(m1),#s
-			  double(m1*m1),#u
-			  double(m1*n),#v
-			  double(5*(3*m1*m1+max(n,4*m1*m1+4*m1))),#work
-		          integer(8*m1),#iwork
-			  fhat=double(nest), 
-			  yw=double(n),#yw
-			  PACKAGE="EDR")$fhat
+      fhat <-.Fortran(C_edrstp3c,
+			       			as.integer(m),
+                        as.integer(n),
+                        as.integer(nest),
+			  			  		as.integer(m1),
+                        as.double(xx),#wij
+                        as.double(xest),#wij
+			               as.double(Kksi),#kksi
+			  					as.double(yy),#y
+		          			double(m1*n),#mat
+			  					double(m1),#s
+			  					double(m1*m1),#u
+			  					double(m1*n),#v
+			  					double(5*(3*m1*m1+max(n,4*m1*m1+4*m1))),#work
+		          			integer(8*m1),#iwork
+			  					fhat=double(nest),
+			  					yw=double(n))$fhat
     z <- list(x=xest,fhat=fhat)
     }
 z
